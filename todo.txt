@@ -1,0 +1,31 @@
+Breaking down the js:
+
+API should:
+-get random word of a specific length, exclude hyphenated word
+--would be btr if I can get words by categories
+-get word definition and display it along with the word once the player gets is wrong
+
+user flow:
+STAGE 1
+-Extract random word and generate the an underlined element on the dom
+
+-auto focus on the input box on load
+
+-show hint button - can only be used once. Destroy click event and add disable class for the button after a single use.
+
+-Set difficulty levels- change word length based on user request
+--noob : 4-6
+--amerture : 7-10
+--novice : 11-14
+--pro : 15-17
+
+STAGE 2
+-Set it up as an angular project.
+
+
+
+
+
+
+
+

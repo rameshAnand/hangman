@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link href='http://fonts.googleapis.com/css?family=Cinzel+Decorative:400,700,900' rel='stylesheet' type='text/css'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+  <div class="background"></div>
+
+  <div id="modal" class="modal">
+    <div class="modal-inner">
+      <div id="success" class="success">
+        <h2>Weldone!!!</h2>
+        <input type="button" class="button" value="Play again" onClick="window.location.reload()">
+      </div>
+      <div id="lost" class="lost">
+        <h2>You are a tad s**t!</h2>
+        <input type="button" class="button" value="Play again" onClick="window.location.reload()">
+      </div>
+    </div>
+  </div>
+
+  <h1 class="logo">Experiment</h1>
+  <div class="content">
+    <div class="left-container">
+      <div id="hangman-interface"></div>
+      <div class="answerWrapper"><input type="text" id="answer" name="fname" maxlength="1" autofocus></div>
+      <h2>Wrong letter</h2>
+      <div id="wrongLetter" class="wrongLetter"></div>
+      <h2>Error Count</h2>
+      <div id="errorCountWrappper"><span></span></div>
+      <div id="hint" class="button">Give me a Hint</div>
+    </div>
+
+    <div id="right-container" class="right-container">
+      <div class="pendulum">
+        <div class="head parts"><img src="image/nooseHead.png"></div>
+        <div class="torso parts"><img src="image/thorso.png"></div>
+        <div class="rHand parts"><img src="image/rightHand.png"></div>
+        <div class="lHand parts"><img src="image/leftHand.png"></div>
+        <div class="rLeg parts"><img src="image/leftLeg.png"></div>
+        <div class="lLeg parts"><img src="image/rightLeg.png"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
