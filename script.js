@@ -1,12 +1,13 @@
 $( document ).ready(function() {
 	var randomWordRequest = "http://api.wordnik.com:80/v4/words.json/randomWord?hasDictionaryDef=true&includePartOfSpeech=noun&excludePartOfSpeech=abbreviation&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=12&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5",
-			wordDefinitionRequest = "http://api.wordnik.com:80/v4/word.json/test/definitions?limit=200&includeRelated=true&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5",
+			selectedWord,
+			selectedWordAry = [],
 			blankLetterId = 0,
 			errorCount = 0,
-			selectedWordAry,
 			indexOfCorrectLetters = [],
 			playersAnswer = [],
 			hintButton = document.getElementById("hint"),
+			answerInput = document.getElementById("answer"),
 			errorCounter = document.getElementById('errorCountWrappper'),
 			lynch = [" head", " torso", " rHand", " lHand", " rLeg", " lLeg"],
 			modal = document.getElementById("modal");
@@ -34,6 +35,15 @@ $( document ).ready(function() {
 		var errorCountElement = document.createElement('span');
 		errorCountElement.innerHTML = errorCount+"/6";
 		errorCounter.appendChild(errorCountElement);
+	}
+
+	function getDefinition(data){
+		var definition = document.createTextNode(data[0].text);
+				newdiv = document.createElement('div');
+
+		newdiv.innerHTML = "<a href='https://www.google.co.uk/#safe=off&q=" + data[0].word + "+define' target ='_blank'>" + data[0].word + "</a>";
+    document.getElementById('correct-answer').appendChild(newdiv);
+		document.getElementById('definition').appendChild(definition);
 	}
 
 	function checkIfCorrect(userInput, answerAry) {
@@ -70,6 +80,9 @@ $( document ).ready(function() {
 			wrongLettersContainer.innerHTML = wrongLettersContainer.innerHTML+ c + userInput;
 			updateErrorCount(errorCount);
 			if(errorCount >= 6){
+				document.getElementById("answer").disabled = true;
+				var definitonStr = "http://api.wordnik.com:80/v4/word.json/"+ selectedWord +"/definitions?limit=200&includeRelated=true&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
+				wordnikRequest(definitonStr,getDefinition);
 				modal.className += " show";
 		  	document.getElementById('lost').className += " show";
 			}
@@ -87,22 +100,22 @@ $( document ).ready(function() {
 	  document.getElementById('hangman-interface').appendChild(text);
 	}
 
-	function RandomWord() {
-    var requestStr = randomWordRequest;
+	function wordnikRequest(requestStr,callBack) {
 
     $.ajax({
       type: "GET",
       url: requestStr,
       dataType: "jsonp",
-      success : RandomWordComplete
+      success : callBack
     })
 	}
 
 	function RandomWordComplete(data) {
-	  selectedWordAry = data.word.replace(/\s+/g, '').split('');
+		selectedWord = data.word.replace(/\s+/g, '');
+		selectedWordAry = selectedWord.split('');
 	  //if the word is hypenated re-run the get request
 	  if(selectedWordAry.indexOf('-') > -1){
-	  	RandomWord();
+	  	wordnikRequest(randomWordRequest, RandomWordComplete);
 	  } else {
 			//add the input fields
 			for (var i = 0; i < selectedWordAry.length; i++){
@@ -120,6 +133,6 @@ $( document ).ready(function() {
 	  }
 	};
 
-  RandomWord();
+  wordnikRequest(randomWordRequest, RandomWordComplete);
   hintButton.addEventListener("click", giveMeAHint, false);
 });
